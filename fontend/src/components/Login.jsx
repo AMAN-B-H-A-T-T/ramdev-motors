@@ -34,7 +34,7 @@ function Login() {
         navigate('/')
     })
     .catch(function (error) {
-      alert(error.response.data.error);
+      alert(error.response.data.message);
     });
   }
 
