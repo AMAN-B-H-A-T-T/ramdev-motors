@@ -5,7 +5,7 @@ const path = require('path')
 
 const app = express()
 const PORT = 4000
-const allowedOrigins = ['http://localhost:4000', 'https://ramdev-motors.onrender.com/',"http://localhost:5173"];
+const allowedOrigins = ['http://localhost:4000', 'https://ramdev-motors.onrender.com',"http://localhost:5173"];
 app.use(cors({
     origin: (origin, callback) => {
       if (allowedOrigins.includes(origin) || !origin) {
