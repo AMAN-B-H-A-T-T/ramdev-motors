@@ -1,0 +1,10 @@
+@keyframes slide-right-left {
+    from {
+      right: 100%; /* Starts off-screen to the right */
+      opacity: 0; /* Starts invisible */
+    }
+    to {
+      right: 0; /* Slides to the left */
+      opacity: 1; /* Becomes fully visible */
+    }
+  }
