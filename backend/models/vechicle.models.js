@@ -26,19 +26,21 @@ const get_Vehicles_by_customer_service = async(customer_mobile,callback)=>{
         }
         const vechicle_ref = await db.collection('Vehicles').where('profile_id','==',customer_ref.docs[0].id).get()
         if(vechicle_ref.empty){
-            return callback({status_code:404,error:"no vehicles found"})
+            const res = {
+                customer : {slug : customer_ref.docs[0].id,...customer_ref.docs[0].data()},
+                vehicles : []
+            }
+            return callback(null,res)
         }
 
         const vehicle_lst = await Promise.all(vechicle_ref.docs.map(async(vechicle,index)=>{
-            const customer_profile = await db.collection('Profile').doc(vechicle.data().profile_id).get()
             return ({
                 slug : vechicle.id,
                 ...vechicle.data(),
-                customer: {...customer_profile.data(),slug:customer_profile.id}
             })
         }))
 
-        return callback(null,vehicle_lst)
+        return callback(null,{customer : {slug : customer_ref.docs[0].id,...customer_ref.docs[0].data()},vehicles : vehicle_lst})
     }
     catch(error){
         return callback({status_code:500,error:error.message})
@@ -55,8 +57,7 @@ const get_vehicle_by_no_service = async(vehicle_no,callback)=>{
         if(!customer_profile.exists){
             return callback({status_code:404,error:"Customer not found"})
         }
-
-        return callback(null,{vehicle:{slug:vehicle_ref.id,...vehicle_ref.docs[0].data()},customer : {slug:customer_profile.id,...customer_profile.data()}})
+        return callback(null,{vehicle:{slug:vehicle_ref.docs[0].id,...vehicle_ref.docs[0].data()},customer : {slug:customer_profile.id,...customer_profile.data()}})
     }
     catch(error){
         return callback({status_code:500,error:error.message})

@@ -29,7 +29,9 @@ function Calender() {
 
   const formRef = useRef(null)
   useEffect(() => {
-    get_all_predefinoed_services()
+    if(localStorage.getItem('access') != null) {
+      get_all_predefinoed_services()
+    }
   }, [])
 
 
@@ -41,10 +43,10 @@ function Calender() {
     axiosInstance.get(`${base_url}/api/manage/get_vehicles_by_customer`, { headers: header, params: { customer_mobile: customer_mobile } })
       .then((response) => {
         const customer = {
-          customer: response.data.data[0].customer
+          customer: response.data.data.customer
         }
         set_customer_details(customer)
-        set_vehicle_lst(response.data.data)
+        set_vehicle_lst(response.data.data.vehicles)
         set_search_state(true)
       })
       .catch((error) => {
@@ -62,7 +64,11 @@ function Calender() {
       }
       axiosInstance.get(`${base_url}/api/manage/get_vehicl_by_no`, { headers: header, params: { vehicle_no: vehicle_num } })
         .then((response) => {
-          set_customer_details(response.data.data)
+          const model = {
+            customer : response.data.data.customer,
+            vehicle : response.data.data.vehicle.slug
+          }
+          set_customer_details(model)
           set_search_state(true)
         })
         .catch((error) => {
@@ -103,7 +109,7 @@ function Calender() {
 
 
   const [services, setServices] = useState([
-    { id: 1, service_name: '', price: '', quantity: '' }
+    { id: 1, service_name: '', price: '0', quantity: '0' }
   ]);
 
   const handleAddService = () => {
@@ -247,7 +253,7 @@ function Calender() {
     set_search_state(false)
     set_km("")
     setServices([
-      { id: 1, service_name: '', price: '', quantity: '' }
+      { id: 1, service_name: '', price: '0', quantity: '0' }
     ]);
     setSelectedServices([])
     formRef.current.reset();
@@ -421,14 +427,36 @@ function Calender() {
                 </div>
                 <div className="w-full justify-center mt-3 flex">
                   <button
+                  type="button"
                     className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
                     onClick={() => { get_customer_details_by_vehicle_no() }}
                   >
-                    Get Customer
+                    Get Details
                   </button>
                 </div>
 
-                <div className={`mt-2 ${search_state ? "flex" : "hidden"}`}>Customer:- {customer_details && customer_details.customer.customer_name} </div>
+                <div className={`mt-2 ${search_state ? "flex" : "hidden"}`}>
+                  Customer:- {customer_details && customer_details.customer.customer_name} 
+                  
+                </div>
+                <div className="relative mt-2 w-full sm:w-3/4">
+                  <input
+                    type="number"
+                    name="customer_mobile"
+                    id="customer_mobile"
+                    placeholder="Enter kilometer"
+                    className="peer mt-1 w-full bg-transparent border-b-2 border-black px-0 py-1 placeholder:text-transparent focus:outline-none"
+                    autoComplete="NA"
+                    onChange={(e) => { set_km(e.target.value) }}
+                  />
+                  <label
+                    htmlFor="email"
+                    className="pointer-events-none absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-800 opacity-75 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-gray-800"
+                  >
+                    kilometer
+                  </label>
+                </div>
+
                 {/* <div className="flex flex-col mt-2">
                   <label>Select Vehicle No</label>
                   <div className="w-full flex items-center gap-x-2 mt-1">
@@ -462,88 +490,6 @@ function Calender() {
             </div>
 
             <div className="w-full flex flex-col sm:flex-row items-center  gap-x-3 justify-between">
-              {/* <div className="sm:w-1/2 max-w-md flex flex-col p-2">
-                <div className="mt-1  text-md flex flex-col">
-                  <div className="w-full flex flex-col sm:flex-row items-center gap-x-6">
-                    <div className="relative  w-full sm:w-3/4">
-                      <input
-                        type="tel"
-                        name="customer_mobile"
-                        id="customer_mobile"
-                        placeholder="Enter Mobile Numner"
-                        className="peer mt-1 w-full bg-transparent border-b-2 border-black px-0 py-1 placeholder:text-transparent focus:outline-none"
-                        autoComplete="NA"
-                        required={true}
-                        onChange={(e) => { set_customer_mobile(e.target.value) }}
-                      />
-                      <label
-                        htmlFor="email"
-                        className="pointer-events-none absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-800 opacity-75 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-gray-800"
-                      >
-                        Mobile Number
-                      </label>
-                    </div>
-                    <div className="w-32 mt-3 flex">
-                      <button
-                        className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-                        onClick={() => { get_customer_details() }}
-                      >
-                        Get Customer
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-                <div className="mt-4 text-gray-500 font-bold text-sm">
-                  Customer Name - {customer_details.customer_name}
-                </div>
-              </div>
-              <div className="">
-                <div className="text-lg">OR</div>
-              </div>
-              <div className="w-full sm:w-1/2 max-w-md flex flex-col p-2 mr-3">
-                <div className="mt-1 text-md flex flex-col">
-                  <div className="w-full flex flex-col sm:flex-row items-center gap-x-6 ">
-                    <div className={`relative bg-opacity-50 w-full sm:w-3/4 ${search_state ? "flex" : "hidden"}`}>
-                      <select id="countries" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option selected value={""}>Choose a Vehicle No</option>
-                        {
-                          vehicle_lst &&
-                          vehicle_lst.map((vehicle, index) => {
-                            return (
-                              <option value={vehicle.slug}>{vehicle.vehicle_no}</option>
-                            )
-                          })
-                        }
-                      </select>
-                    </div>
-                    <div className={`relative bg-opacity-50 w-full sm:w-3/4 ${search_state ? "hidden" : "flex"}`}>
-                      <input
-                        type="tel"
-                        name="customer_mobile"
-                        id="customer_mobile"
-                        placeholder="Vehicle No"
-                        className="peer mt-1 w-full bg-transparent border-b-2 border-black px-0 py-1 placeholder:text-transparent focus:outline-none"
-                        autoComplete="NA"
-                        required={true}
-                      />
-                      <label
-                        htmlFor="email"
-                        className="pointer-events-none absolute top-0 left-0 origin-left -translate-y-1/2 transform text-sm text-gray-800 opacity-75 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:pl-0 peer-focus:text-sm peer-focus:text-gray-800"
-                      >
-                        Vehicle No
-                      </label>
-                    </div>
-                    <div className={`w-32 ${search_state ? "hidden" : "flex"}`}>
-                      <button
-                        className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
-                        Get Details
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </div> */}
             </div>
             {/* second card  */}
             <div className="w-full flex flex-col mt-5 border">
@@ -619,7 +565,7 @@ function Calender() {
                       <div className="flex gap-x-2 items-center px-3 py-3">
                         <div className="relative bg-opacity-50 w-full">
                           <input
-                            type="tel"
+                            type="text"
                             name="service_name"
                             id="name"
                             placeholder="Enter Mobile Numner"
@@ -639,7 +585,7 @@ function Calender() {
                       <div className=" sm:w-1/2 w-full gap-x-3  px-3 pb-3 flex">
                         <input type="number" name="quantity" className="w-12 border font-medium" min={1} placeholder="Qty." value={service.quantity} onChange={(e) => handleInputChange(service.id, e)}></input> X
                         <input type="number" name="price" className="w-16" placeholder="Rs." value={service.price} onChange={(e) => handleInputChange(service.id, e)} min={0}></input> =
-                        <input type="number" readOnly className="w-16" placeholder="Tot." value={service.price}></input>
+                        <input type="number" readOnly className="w-16" placeholder="Tot." value={parseInt(service.price) * parseInt(service.quantity)}></input>
                       </div>
                     </div>
 
