@@ -88,7 +88,7 @@ const CustomerOnlyForm = ({sidebar_cust, setSidebar_cust,set_search_state,set_cu
               type="submit"
               className="w-full my-3 px-6 py-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-black focus:outline-none"
             >
-              Book
+              Add Customer
             </button>
           </form>
         </div>
