@@ -260,7 +260,7 @@ function Calender() {
           {/* Header of the card  */}
           <div className="w-full flex border-b px-3 py-2 bg-slate-50 mb-3 items-center justify-between">
             <div className="text-lg">Create Bill</div>
-            <div className="">
+            {/* <div className="">
               <button
                 type="submit"
                 className="text-white w-full bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
@@ -268,7 +268,7 @@ function Calender() {
               >
                 Add Customer
               </button>
-            </div>
+            </div> */}
           </div>
           {/* body of the card */}
 
