@@ -26,7 +26,7 @@ const login_service = async(data,callback)=>{
             return callback({status_code:404,error:"User does not exist"})
         }
         
-        if(user.password == data.password){
+        if(user.password == data.password && user.role == "admin"){
             const model = {
                 profile_id : doc.id,
                 customer_name : user.customer_name,

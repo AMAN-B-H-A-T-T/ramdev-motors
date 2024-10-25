@@ -31,7 +31,7 @@ const login_controller = async(req,res)=>{
     try{
         const model = {
             customer_mobile : req.body.customer_mobile,
-            password : req.body.password
+            password : req.body.password.trim()
         }
         login_service(model,(error,result)=>{
             if(error){
