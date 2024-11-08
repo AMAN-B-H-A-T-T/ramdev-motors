@@ -4,10 +4,7 @@ const { save_bill_service, get_bills_of_customer_service } = require("../models/
 const save_bill_controller = async(req,res)=>{
     try{
         if(req.userDetails.role != "admin"){
-            return res.status(401).send({
-                "error":"error",
-                "message":"Unauthorized access"
-            })
+            return res.status(401).send("Unauthorized access")
         }
 
         const model = {
@@ -28,10 +25,7 @@ const save_bill_controller = async(req,res)=>{
         model.total_price = total_bill_amt
         save_bill_service(model,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                return res.status(error.status_code).send(error.error)
             }
             return res.status(200).send({
                 "message":"success",
@@ -40,7 +34,7 @@ const save_bill_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 
@@ -48,18 +42,12 @@ const save_bill_controller = async(req,res)=>{
 const get_bills_of_customer_controller = async(req,res)=>{
     try{
         if(req.userDetails.role != "admin"){
-            return res.status(401).send({
-                "error":"error",
-                "message":"Unauthorized access"
-            })
+            return res.status(401).send("Unauthorized access")
         }
 
         get_bills_of_customer_service(req.query,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                return res.status(error.status_code).send(error.error)
             }
             return res.status(200).send({
                 "message":"success",
@@ -68,7 +56,7 @@ const get_bills_of_customer_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 module.exports = {

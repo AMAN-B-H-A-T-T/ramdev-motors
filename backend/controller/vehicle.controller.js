@@ -3,10 +3,7 @@ const { add_vechicle_service, get_Vehicles_by_customer_service, get_vehicle_by_n
 const add_vehicle_controller = async(req,res)=>{
     try{
         if(req.userDetails.role != "admin"){
-            return res.status(401).send({
-                "error":"error",
-                "message":"Unauthorized access"
-            })
+            return res.status(401).send("Unauthorized access")
         }
         const model = {
             vehicle_no : req.body.vehicle_no,
@@ -14,10 +11,7 @@ const add_vehicle_controller = async(req,res)=>{
         }
         add_vechicle_service(model,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                 return res.status(error.status_code).send(error.error)
             }
 
             return res.status(200).send({
@@ -28,25 +22,19 @@ const add_vehicle_controller = async(req,res)=>{
     }   
     catch(error){
         console.log("first")
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 
 const get_vehicle_customer_controller = async(req,res)=>{
     try{
         if(req.userDetails.role != "admin"){
-            return res.status(401).send({
-                "error":"error",
-                "message":"Unauthorized access"
-            })
+            return res.status(401).send("Unauthorized access")
         }
 
         get_Vehicles_by_customer_service(req.query.customer_mobile,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                 return res.status(error.status_code).send(error.error)
             }
             return res.status(200).send({
                 "message":"success",
@@ -55,25 +43,19 @@ const get_vehicle_customer_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 
 const get_vehicle_by_no_controller = async(req,res)=>{
     try{
         if(req.userDetails.role != "admin"){
-            return res.status(401).send({
-                "error":"error",
-                "message":"Unauthorized access"
-            })
+            return res.status(401).send("Unauthorized access")
         }
 
         get_vehicle_by_no_service(req.query.vehicle_no,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                 return res.status(error.status_code).send(error.error)
             }
             return res.status(200).send({
                 "message":"success",
@@ -82,17 +64,14 @@ const get_vehicle_by_no_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 
 const add_customer_vehicle_controller = async(req,res)=>{
     try{
         if(req.userDetails.role != "admin"){
-            return res.status(401).send({
-                "error":"error",
-                "message":"Unauthorized access"
-            })
+            return res.status(401).send("Unauthorized access")
         }
         const customerModel = {
             customer_name : req.body.customer_name,
@@ -103,10 +82,7 @@ const add_customer_vehicle_controller = async(req,res)=>{
         }
         add_customer_vehicle_service(customerModel,vehicleModel,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                 return res.status(error.status_code).send(error.error)
             }
             return res.status(200).send({
                 "message":"success",
@@ -115,7 +91,7 @@ const add_customer_vehicle_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 module.exports ={

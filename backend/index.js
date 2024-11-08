@@ -42,5 +42,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
+// app.listen(4000,()=>{
+//   console.log("running")
+// })
 // Export the app as a serverless function
 module.exports = app;

@@ -9,10 +9,7 @@ const create_user_controller = async(req,res)=>{
 
         create_user_service(model,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message" : error.error
-                })
+                return res.status(error.status_code).send(error.error)
             }
 
             return res.status(200).send({
@@ -22,7 +19,7 @@ const create_user_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 
@@ -35,10 +32,7 @@ const login_controller = async(req,res)=>{
         }
         login_service(model,(error,result)=>{
             if(error){
-                return res.status(error.status_code).send({
-                    "error":"error",
-                    "message":error.error
-                })
+                return res.status(error.status_code).send(error.error)
             }
             return res.status(200).send({
                 "message":"success",
@@ -47,7 +41,7 @@ const login_controller = async(req,res)=>{
         })
     }
     catch(error){
-        throw new Error(error.message)
+        return res.status(500).send(error.message)
     }
 }
 module.exports = {
