@@ -43,7 +43,7 @@ function Login() {
     <div
       className="h-screen w-full"
       style={{
-        backgroundImage: 'url("/images/graphics/bg.webp")',
+        backgroundImage: 'url("/images/graphics/back.jpg")',
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}
@@ -148,16 +148,7 @@ function Login() {
                     Sign in
                   </button>
                 </div>
-                <p className="text-center text-sm text-gray-500">
-                  Forgot your password?
-                  <Link
-                    to="/forgot-password"
-                    className="ml-2 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
-                  >
-                    Click Here
-                  </Link>
-                  .
-                </p>
+                
               </form>
             </div>
           </div>
