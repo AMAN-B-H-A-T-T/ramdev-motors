@@ -58,7 +58,7 @@ function BookingForEmployees({
           set_bill_list(respose.data.data)
       })
       .catch((error)=>{
-        alert(error.response.data.message)
+        alert(error.response.data)
       })
     }
     catch(error){

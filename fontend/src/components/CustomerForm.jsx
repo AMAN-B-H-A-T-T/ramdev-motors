@@ -20,7 +20,7 @@ const CustomerForm = ({sidebar, setSidebar}) => {
             alert("Customer Added Successfully")
           })
           .catch((error)=>{
-            alert(error.response.data.message)
+            alert(error.response.data)
           })
 
           

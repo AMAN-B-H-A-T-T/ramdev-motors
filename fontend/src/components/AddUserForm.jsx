@@ -60,8 +60,8 @@ function AddUserForm({ AddUserSidebarForm, showAddUserForm, setEmployees, setNon
         }
     })
     .catch(function (error) {      
-      if(error.response.data.message){
-        alert(error.response.data.message);  
+      if(error.response.data){
+        alert(error.response.data);  
       }else{
         alert(error.response.data.error);
       }

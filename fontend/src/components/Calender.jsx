@@ -50,8 +50,8 @@ function Calender() {
         set_search_state(true)
       })
       .catch((error) => {
-        alert(error.response.data.message)
-        if (error.response.data.message == "no Customer found") {
+        alert(error.response.data)
+        if (error.response.data == "no Customer found") {
           setSidebar_cust(true)
         }
       })
@@ -72,7 +72,7 @@ function Calender() {
           set_search_state(true)
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          alert(error.response.data)
         })
     }
     catch (error) {
@@ -98,7 +98,7 @@ function Calender() {
           set_pre_defined_service_status(service_status)
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          alert(error.response.data)
         })
     }
     catch (error) {
@@ -178,7 +178,10 @@ function Calender() {
           set_vehicle_lst((preList) => [...preList, response.data.data])
         })
         .catch((error) => {
-          alert(error.response.data.message)
+
+           
+        
+          return alert(error.response.data)
         })
     }
     catch (error) {
@@ -236,7 +239,7 @@ function Calender() {
         clearform()
       })
       .catch((error)=>{
-        alert(error.response.data.message)
+          return alert(error.response.data)
       })  
     }
 

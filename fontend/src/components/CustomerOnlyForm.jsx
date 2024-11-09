@@ -27,7 +27,7 @@ const CustomerOnlyForm = ({sidebar_cust, setSidebar_cust,set_search_state,set_cu
 
           })
           .catch((error)=>{
-            alert(error.response.data.message)
+            alert(error.response.data)
           })
 
           
